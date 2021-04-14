@@ -1,0 +1,16 @@
+{% extends 'login.html' %}
+
+{% block body %}
+<h1 id="bdytxt" >Student & Teacher Information Management</h1>
+			<div id="lgndv">
+				<form action="{{ url_for('base') }}" method="POST">
+					<input id="emlgn" class="cllgn" name="emlgn" placeholder=" " type="Email" value="{{ emlgnupdate }}" autocomplete="off">
+					<label id="lblemlgn" class="cllbl" for="emlgn">Email</label>
+					<input id="passlgn" class="cllgn" name="passlgn" type="Password" >
+					<label id="lblpasslgn" class="cllbl" for="passlgn" >Password</label>
+                    <h1 id="warntxt" >{{ msgf }}</h1>
+					<button id="butlgn">LOGIN</button>
+					<h4 id="noacctxt">Not yet registered? <a id="lnkreg" href="{{ url_for('register') }}" draggable='false' ondragstart="return false;">Register Now!</a></h4>
+				</form>
+			</div>
+{% endblock %}

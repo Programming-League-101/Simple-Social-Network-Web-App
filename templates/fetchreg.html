@@ -1,0 +1,28 @@
+{% extends 'register.html' %}
+{% block body %}
+
+	<h1 id="bdytxt" >Student & Teacher Information Management</h1>
+			<div id="regdv">
+				<form action="{{ url_for('register') }}" method="POST" id="regform">
+					<input id="nmreg" class="clreg" name="nmreg" placeholder=" " type="text"  autocomplete="off" value='{{ nmregupdate }}'/>
+					<label id="lblnmreg" class="cllbl" for="nmreg">Full Name</label>
+
+					<input id="emreg" class="clreg" name="emreg" placeholder=" " type="Email"  autocomplete="off" value='{{ emregupdate }}'/>
+					<label id="lblemreg" class="cllbl" for="emreg">Email</label>
+
+					<input id="passreg" class="clreg" name="passreg" type="Password"  value='{{ passregupdate }}'/>
+					<label id="lblpassreg" class="cllbl" for="passreg" >Password</label>
+
+					<input id="repassreg" class="clreg" name="repassreg" type="Password"  value='{{ repassregupdate }}'/>
+					<label id="lblrepassreg" class="cllbl" for="repassreg" >Confirm Password</label>
+
+                    <h1 id="warntxt" >{{ msgf }}</h1>
+
+                    <h1 id="succtxt" >{{ msgs }}</h1>
+
+                    <button id="butreg" type="submit" >REGISTER</button>
+
+                    <h4 id="noacctxt">Already have an account? <a id="lnklgn" href="{{ url_for('base') }}"  draggable='false' ondragstart="return false;">Login Now!</a></h4>
+				</form>
+			</div>
+{% endblock %}

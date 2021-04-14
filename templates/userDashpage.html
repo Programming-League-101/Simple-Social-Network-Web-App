@@ -1,0 +1,32 @@
+{% extends "user_dashboard.html" %}
+{% block body %}
+			<div id="nav" >
+                <div id="dropdown">
+				    <div draggable='false' ondragstart="return false;" id="user-profile-space">
+					    <div id="user-profile-pic" class="misc">
+						    <img src="{{ url_for('static',filename=userdefpic) }}" alt="{{ userProfilepic }}" id="user-pp">
+					    </div>
+					    <div id="user-profile-name" class="misc">
+						    <h3>{{ usernm }}</h3>
+					    </div>
+					    <div id="user-profile-schoolpos" class="misc">
+						    <h5>{{ schoolposition }}</h5>
+					    </div>
+				    </div>
+                    <div id="userDropdowncontent">
+                        <a id="profileLink" href={{ url_for('profile') }}>Profile</a>
+                    </div>
+                </div>
+                <div id="logoutLogo">
+                    <a id="logoutfocus" draggable='false' ondragstart="return false;" href="{{ url_for('logout') }}">
+                        <img draggable='false' ondragstart="return false;" src="{{ url_for('static', filename='./images/logout.png') }}" alt="Logout" id="logout">
+                        <div id="preventLogoutdrag"></div>
+                    </a>
+                </div>
+
+
+				<div id="pageLogo" >
+					<img draggable='false' ondragstart="return false;" src="{{ url_for('static', filename='./images/logo.png') }}" alt="St.Peter's College Logo" id="spclogo">
+				</div>
+			</div>
+{% endblock %}

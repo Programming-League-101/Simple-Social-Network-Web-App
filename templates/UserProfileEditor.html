@@ -1,0 +1,71 @@
+{% extends 'userProfilePage.html' %}
+
+{% block body %}
+			<div id="nav" >
+                <div id="dropdown">
+				    <div draggable='false' ondragstart="return false;" id="user-profile-space">
+					    <div id="user-profile-pic" class="misc">
+						    <img src="{{ url_for('static',filename=userdefpic) }}" alt="{{ userProfilepic }}" id="user-pp">
+					    </div>
+					    <div id="user-profile-name" class="misc">
+						    <h3>{{ usernm }}</h3>
+					    </div>
+					    <div id="user-profile-schoolpos" class="misc">
+						    <h5>{{ schoolposition }}</h5>
+					    </div>
+				    </div>
+                    <div id="userDropdowncontent">
+                        <a id="profileLink" href={{ url_for('homepage') }}>Home</a>
+                    </div>
+                </div>
+                <div id="logoutLogo">
+                    <a id="logoutfocus" draggable='false' ondragstart="return false;" href="{{ url_for('logout') }}">
+                        <img draggable='false' ondragstart="return false;" src="{{ url_for('static', filename='./images/logout.png') }}" alt="Logout" id="logout">
+                        <div id="preventLogoutdrag"></div>
+                    </a>
+                </div>
+				<div id="pageLogo" >
+					<img draggable='false' ondragstart="return false;" src="{{ url_for('static', filename='./images/logo.png') }}" alt="St.Peter's College Logo" id="spclogo">
+				</div>
+			</div>
+            <div id="userinfobg"></div>
+
+            <div id="userprofilepage">
+                <div id="userprofilepicture">
+                    <img src="{{ url_for('static',filename=userdefpic) }}" alt="{{ userProfilepic }}" id="user-pp-view">
+                </div>
+                <div id="userprofilename1">
+                    <h3>{{ usernm }}</h3>
+                </div>
+                <div id="userprofileschoolpos1">
+                    <h3>{{ schoolposition }}</h3>
+                </div>
+                <div id="userprofileschoolpos2">
+                    <label id="userprofileschoolposlabe2" >STATUS:</label>
+                    <h3>{{ schoolposition }}</h3>
+                </div>
+                <div id="userprofilename2">
+                    <label id="userprofilenamelabel" >NAME:</label>
+                    <h3>{{ usernm }}</h3>
+                </div>
+                <div id="userprofileemail">
+                </div>
+                <div id="userprofileschoolyr">
+                    <label>SCHOOL YEAR:</label>
+                    <h3>{{ userschoolyr }}</h3>
+                </div>
+                <div id="userprofileschoolid">
+                    <label>SCHOOL I.D:</label>
+                    <h3>{{ userschoolid }}</h3>
+                </div>
+                <div id="userprofilebday">
+                     <label>DATE OF BIRTH:</label>
+                    <h3>{{ userbday }}</h3>
+                </div>
+                <div id="userprofilecourse">
+                    <label>COURSE:</label>
+                    <h3>{{ usercourse }}</h3>
+                </div>
+            </div>
+
+{% endblock %}
