@@ -350,8 +350,84 @@ body {
 	letter-spacing: 10px;
 }
 
+.inputclass {
+	border: 1px solid #505259;
+	position: absolute;
+	font-size: 18px;
+	color: white;
+	background-color: #18191c;
+	text-indent: 15px;
+	border-radius: 7px;
+	height: 50px;
+	width: 350px;
+	outline: none;
+	font-family: inherit;
+	font-weight: 600;
+	display: flex;
+	transition: border 300ms ease-in;
+}
 
-#profileSettings {
+.inputclass:hover{
+	border: 1px solid #5c5e66;
+	border-radius: 7px;
+}
+
+
+.inputclass:focus {
+		border: 1px solid #f2f2f2;
+		border-radius: 7px;
+}
+
+#userstatusedit {
+	width: 150px;
+	left: -5px;
+	background-color: #18191c;
+  -webkit-appearance: none;
+}
+
+#userstatusedit .select {
+	background-color: transparent;
+}
+
+#usernmeditor {
+	width: 280px;
+	left: -5px;
+}
+
+#usersyedit {
+	width: 157px;
+	left: -5px;
+	background-color: #18191c;
+  -webkit-appearance: none;
+}
+
+#usersyedit .select {
+	background-color: transparent;
+}
+
+#usersidneditor {
+	width: 193px;
+	left: -5px;
+}
+
+#userbdayeditor {
+	width: 160px;
+	left: -5px;
+}
+
+#usercourseedit {
+	width: 450px;
+	left: -5px;
+	background-color: #18191c;
+  -webkit-appearance: none;
+}
+
+#useremeditor {
+	width: 350px;
+	left: -5px;
+}
+
+#goback {
     position: absolute;
     color: white;
     background-color: #555969;
@@ -376,10 +452,53 @@ body {
     user-select: none;
 }
 
-#profileSettings:hover {
+#goback:hover {
     background-color: #7f828c;
 }
 
-#profileSettings:active {
+#goback:active {
     background-color: #5e5f69;
+}
+
+#profileSaveSettings {
+    position: absolute;
+    color: white;
+    background-color: #555969;
+    border: none;
+    height: 50px;
+    width: 200px;
+    border-radius: 15px;
+    cursor: pointer;
+    outline: none;
+    text-decoration: none;
+    font-family: 'TitilliumWeb-Bold', sans-serif;
+    font-weight: 600;
+    white-space: nowrap;
+    font-size: 20px;
+    top: 30px;
+    left: 550px;
+    padding-top: 15px;
+    text-align: center;
+    text-shadow: 0 0 10px #212020;
+    box-shadow: 0 0 30px rgba(0,0,0,0.3);
+    transition: background-color 200ms ease-in;
+    user-select: none;
+}
+
+#profileSaveSettings:hover {
+    background-color: #7f828c;
+}
+
+#profileSaveSettings:active {
+    background-color: #5e5f69;
+}
+
+#userpasseditor {
+	width: 300px;
+	left: -180px;
+}
+
+#userrepasseditor {
+	width: 300px;
+	left: 140px;
 }

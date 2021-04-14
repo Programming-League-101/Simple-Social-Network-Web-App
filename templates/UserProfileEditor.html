@@ -1,5 +1,10 @@
 {% extends 'userProfilePage.html' %}
 
+{% block head %}
+    <title>Settings • Information Management System</title>
+     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='./css/userProfileEditor.css') }}">
+{% endblock %}
+
 {% block body %}
 			<div id="nav" >
                 <div id="dropdown">
@@ -29,8 +34,10 @@
 				</div>
 			</div>
             <div id="userinfobg"></div>
-
+            <div id="userinfobg2"></div>
             <div id="userprofilepage">
+            <a id="goback" href="{{ url_for('profile') }}">GO BACK</a>
+            <a id="profileSaveSettings" href="{{ url_for('profile') }}">SAVE CHANGES</a>
                 <div id="userprofilepicture">
                     <img src="{{ url_for('static',filename=userdefpic) }}" alt="{{ userProfilepic }}" id="user-pp-view">
                 </div>
@@ -41,31 +48,52 @@
                     <h3>{{ schoolposition }}</h3>
                 </div>
                 <div id="userprofileschoolpos2">
-                    <label id="userprofileschoolposlabe2" >STATUS:</label>
-                    <h3>{{ schoolposition }}</h3>
+                    <label id="userprofileschoolposlabe2" for="userstatusedit">STATUS:</label>
+                    <select required id="userstatusedit" class="inputclass">
+                        <option selected disabled hidden></option>
+                        <option value="Student">Student</option>
+                        <option value="Teacher">Teacher</option>
+                    </select>
                 </div>
                 <div id="userprofilename2">
-                    <label id="userprofilenamelabel" >NAME:</label>
-                    <h3>{{ usernm }}</h3>
+                    <label id="userprofilenamelabel" for="usernmeditor" >FULL NAME:</label>
+                    <input autocomplete="off" required id="usernmeditor" class="inputclass" />
                 </div>
                 <div id="userprofileemail">
+                    <label id="userprofileemaillabel" >EMAIL:</label>
+                    <input autocomplete="off" required id="useremeditor" type="email" class="inputclass" />
                 </div>
                 <div id="userprofileschoolyr">
                     <label>SCHOOL YEAR:</label>
-                    <h3>{{ userschoolyr }}</h3>
+                    <select id="usersyedit" class="inputclass">
+                        <option selected disabled hidden></option>
+                        <option value="1st Year">1st Year</option>
+                        <option value="2nd Year">2nd Year</option>
+                        <option value="3rd Year">3rd Year</option>
+                        <option value="4th Year">4th Year</option>
+                    </select>
                 </div>
                 <div id="userprofileschoolid">
                     <label>SCHOOL I.D:</label>
-                    <h3>{{ userschoolid }}</h3>
+                    <input autocomplete="off" required id="usersidneditor" class="inputclass"/>
                 </div>
                 <div id="userprofilebday">
                      <label>DATE OF BIRTH:</label>
-                    <h3>{{ userbday }}</h3>
+                    <input autocomplete="off" type="date" required id="userbdayeditor" class="inputclass" />
                 </div>
                 <div id="userprofilecourse">
                     <label>COURSE:</label>
-                    <h3>{{ usercourse }}</h3>
+                    <select required id="usercourseedit" class="inputclass">
+                        <option selected disabled hidden></option>
+                        <option value="Bachelor of Science in Computer Science">Bachelor of Science in Computer Science</option>
+                        <option value="Bachelor of Science in Information Technology">Bachelor of Science in Information Technology</option>
+                    </select>
+                </div>
+                <div id="userprofilepass">
+                    <label>PASSWORD (ENCRYPTED):</label>
+                    <input autocomplete="off" type="password" required id="userpasseditor" class="inputclass" placeholder="Password"/>
+                    <input autocomplete="off" type="password" required id="userrepasseditor" class="inputclass" placeholder="Confirm Password" />
                 </div>
             </div>
-
+            <span id="span"></span>
 {% endblock %}

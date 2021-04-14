@@ -76,6 +76,12 @@ def profile():
     else:
         return redirect(url_for('base'))
     
+@app.route('/profile/edit')
+def profileEditor():
+    if 'loggedin' in session:
+        return render_template('UserProfileEditor.html',  usernm=session['usernm'], schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'], userdefpic=session['userdefpic'])
+    else:
+        return redirect(url_for('base'))
 
 @app.route('/logout')
 def logout():
