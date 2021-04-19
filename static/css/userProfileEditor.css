@@ -477,7 +477,7 @@ body {
     font-size: 20px;
     top: 30px;
     left: 550px;
-    padding-top: 15px;
+    padding-top: 2px;
     text-align: center;
     text-shadow: 0 0 10px #212020;
     box-shadow: 0 0 30px rgba(0,0,0,0.3);
@@ -502,3 +502,5 @@ body {
 	width: 300px;
 	left: 140px;
 }
+
+

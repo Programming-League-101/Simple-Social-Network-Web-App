@@ -31,23 +31,31 @@
             <div id="userinfobg"></div>
             <div id="userinfobg2"></div>
             <div id="userprofilepage">
+                <h3 id="msgs">{{ msgs }}</h3>
+                <h3 id="msgf">{{ msgf }}</h3>
                 <a id="profileSettings" href="{{ url_for('profileEditor') }}">EDIT PROFILE</a>
                 <div id="userprofilepicture">
                     <img src="{{ url_for('static',filename=userdefpic) }}" alt="{{ userProfilepic }}" id="user-pp-view">
                 </div>
+               <div id="userprofilename2">
+                    <form action="{{ url_for('changeprofile') }}" method="POST" enctype="multipart/form-data">
+                        <input type="file" id="newuserdp" name="newuserdp" onchange="this.form.submit()" hidden/>
+                        <label id="changedpbtn" for="newuserdp">CHANGE PROFILE</label>
+                    </form>
+                </div>
                 <div id="userprofilename1">
-                    <h3>{{ usernm }}</h3>
+                    <h3 id="getusernm">{{ usernm }}</h3>
                 </div>
                 <div id="userprofileschoolpos1">
                     <h3>{{ schoolposition }}</h3>
                 </div>
-                <div id="userprofileschoolpos2">
-                    <label id="userprofileschoolposlabe2" >STATUS:</label>
-                    <h3>{{ schoolposition }}</h3>
-                </div>
-                <div id="userprofilename2">
+                 <div id="userprofilename2">
                     <label id="userprofilenamelabel" >NAME:</label>
                     <h3>{{ usernm }}</h3>
+                </div>
+                <div id="userprofileschoolpos2">
+                    <label id="userprofilsylabel" >STATUS:</label>
+                    <h3>{{ schoolposition }}</h3>
                 </div>
                 <div id="userprofileemail">
                     <label id="userprofileemaillabel" >EMAIL:</label>

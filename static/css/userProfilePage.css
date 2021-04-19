@@ -383,3 +383,63 @@ body {
 #profileSettings:active {
     background-color: #5e5f69;
 }
+
+
+
+#changedpbtn{
+    display: inline-block;
+	position: absolute;
+    background-color: #555969;
+    color: white;
+    padding: 0.5rem;
+    border: none;
+    height: 50px;
+    width: 200px;
+    text-decoration: none;
+    font-family: 'TitilliumWeb-Bold', sans-serif;
+    border-radius: 15px;
+    outline: none;
+    cursor: pointer;
+    margin-top: 1rem;
+	left: -259px;
+	top: -50px;
+    user-select: none;
+    text-align: center;
+    font-weight: 600;
+    white-space: nowrap;
+    font-size: 20px;
+	padding-top: 11px;
+    text-shadow: 0 0 10px #212020;
+    box-shadow: 0 0 30px rgba(0,0,0,0.3);
+    transition: background-color 200ms ease-in;
+}
+
+#changedpbtn:hover {
+    background-color: #7f828c;
+}
+
+#changedpbtn:active {
+    background-color: #5e5f69;
+}
+
+#msgs{
+	position: absolute;
+	color: #2dec2d;
+	font-size: 20px;
+    font-weight: lighter;
+	text-align: center;
+    left: 745px;
+    white-space: nowrap;
+	top: -75px;
+}
+
+#msgf{
+	position: absolute;
+	color: #fa4444;
+	font-size: 20px;
+    font-weight: lighter;
+	text-align: center;
+    left: 780px;
+    white-space: nowrap;
+	top: -75px;
+}
