@@ -10,11 +10,9 @@ from flask_mysqldb import MySQL
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
 
-
 app = Flask(__name__)
 
-
-app.secret_key='195f89e59175eec4a3ae4630b800d31a'
+app.secret_key = '195f89e59175eec4a3ae4630b800d31a'
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -24,9 +22,8 @@ app.config['MYSQL_DB'] = 'informationmanagement'
 mysql = MySQL(app)
 
 
-@app.route('/login', methods=['GET','POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def base():
-
     if 'loggedin' in session:
         return redirect(url_for('homepage'))
 
@@ -43,7 +40,7 @@ def base():
 
 
         else:
-            cur.execute("SELECT * FROM users WHERE email=%s AND pass=%s",(emlgn, hashedpass.hexdigest()))
+            cur.execute("SELECT * FROM users WHERE email=%s AND pass=%s", (emlgn, hashedpass.hexdigest()))
             dataFethcher = cur.fetchone()
 
             if dataFethcher:
@@ -73,22 +70,34 @@ def base():
 @app.route('/')
 def homepage():
     if 'loggedin' in session:
-        return render_template('userDashpage.html', usernm=session['usernm'], schoolposition=session['schoolpos'] , userProfilepic=session['userpicalt'], userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'], userschoolid=session['schoolid'], usercourse=session['course'], userbday=session['bday'], userem=session['userem'])
+        return render_template('userDashpage.html', usernm=session['usernm'], schoolposition=session['schoolpos'],
+                               userProfilepic=session['userpicalt'], userdefpic=session['userdefpic'],
+                               userschoolyr=session['schoolyr'], userschoolid=session['schoolid'],
+                               usercourse=session['course'], userbday=session['bday'], userem=session['userem'])
     else:
         return redirect(url_for('base'))
+
+
 @app.route('/profile')
 def profile():
     if 'loggedin' in session:
-        return render_template('UserProfileDataFetcher.html', usernm=session['usernm'], schoolposition=session['schoolpos'] , userProfilepic=session['userpicalt'], userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'], userschoolid=session['schoolid'], usercourse=session['course'], userbday=session['bday'], userem=session['userem'])
+        return render_template('UserProfileDataFetcher.html', usernm=session['usernm'],
+                               schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'],
+                               userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'],
+                               userschoolid=session['schoolid'], usercourse=session['course'], userbday=session['bday'],
+                               userem=session['userem'])
     else:
         return redirect(url_for('base'))
-    
+
+
 @app.route('/profile/edit')
 def profileEditor():
     if 'loggedin' in session:
-        return render_template('UserProfileEditor.html',  usernm=session['usernm'], schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'], userdefpic=session['userdefpic'])
+        return render_template('UserProfileEditor.html', usernm=session['usernm'], schoolposition=session['schoolpos'],
+                               userProfilepic=session['userpicalt'], userdefpic=session['userdefpic'])
     else:
         return redirect(url_for('base'))
+
 
 @app.route('/logout')
 def logout():
@@ -106,6 +115,7 @@ def logout():
     session.pop('userem', None)
     return redirect(url_for('base'))
 
+
 @app.route('/register')
 def register():
     if 'loggedin' in session:
@@ -113,9 +123,9 @@ def register():
 
     return render_template('fetchreg.html')
 
+
 @app.route('/register', methods=['POST'])
 def fetcher():
-
     if request.method == "POST":
 
         name = request.form['nmreg']
@@ -142,11 +152,13 @@ def fetcher():
 
         if getName == "" and getEmail == "" and getPass == "" and getRepass == "" or getName == "" or getEmail == "" or getPass == "" or getRepass == "":
             msgf = "Fields cannot be empty"
-            return render_template('fetchreg.html', msgf=msgf, nmregupdate=getName, emregupdate=getEmail, passregupdate=getPass, repassregupdate=getRepass)
+            return render_template('fetchreg.html', msgf=msgf, nmregupdate=getName, emregupdate=getEmail,
+                                   passregupdate=getPass, repassregupdate=getRepass)
 
         if emailCheck:
             msgf = "Email already existed"
-            return render_template('fetchreg.html', msgf=msgf, nmregupdate=getName, passregupdate=getPass, repassregupdate=getRepass)
+            return render_template('fetchreg.html', msgf=msgf, nmregupdate=getName, passregupdate=getPass,
+                                   repassregupdate=getRepass)
 
         if len(getPass) < 8:
             msgf = "Password must be minimum of 8 Characters"
@@ -165,20 +177,20 @@ def fetcher():
             os.mkdir(userdirectorypath)
 
             userlocalstorage = "Images"
-            userlocalstorage_dir = "./static/users/"+userdirectory+"/"
+            userlocalstorage_dir = "./static/users/" + userdirectory + "/"
             userlocalstoragepath = os.path.join(userlocalstorage_dir, userlocalstorage)
             os.mkdir(userlocalstoragepath)
             def_pic = './images/default_profile_picture.png'
-            cur.execute("INSERT INTO `users` (`user_id`,`user_pp`,`fullname`, `email`, `pass`, `repass`) VALUES (%s, %s, %s, %s, %s, %s)",[generateUUID, def_pic, name, emailreg, str(p1.hexdigest()), str(p2.hexdigest())])
+            cur.execute(
+                "INSERT INTO `users` (`user_id`,`user_pp`,`fullname`, `email`, `pass`, `repass`) VALUES (%s, %s, %s, %s, %s, %s)",
+                [generateUUID, def_pic, name, emailreg, str(p1.hexdigest()), str(p2.hexdigest())])
             mysql.connection.commit()
-
-
 
             msgs = "Registered Successfully!"
             return render_template('fetchreg.html', msgs=msgs)
 
 
-@app.route('/EditProfile', methods=['GET','POST'])
+@app.route('/EditProfile', methods=['GET', 'POST'])
 def editprofile():
     getUserID = session['user_id']
     if request.method == "POST":
@@ -230,7 +242,6 @@ def editprofile():
                 WHERE user_id=%s
                 """, (p1, p2, getUserID))
                 mysql.connection.commit()
-
 
         if usernm != '':
             session.pop('usernm', None)
@@ -302,14 +313,6 @@ def editprofile():
             """, (userem, getUserID))
             mysql.connection.commit()
 
-
-
-
-
-
-
-
-
     cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cur.execute("SELECT * FROM users WHERE user_id=%s", [session['user_id']])
     dataFethcher = cur.fetchone()
@@ -331,12 +334,9 @@ def editprofile():
                                userbday=session['bday'], userem=session['userem'], msgs=msgs)
 
 
-
-
-@app.route('/profile', methods=['GET','POST'])
+@app.route('/profile', methods=['GET', 'POST'])
 def changeprofile():
-
-    img_ext = ['.jpg','.jpeg','.png','.gif']
+    img_ext = ['.jpg', '.jpeg', '.png', '.gif']
     Accepted = 0
 
     if request.method == "POST":
@@ -353,10 +353,10 @@ def changeprofile():
                 Accepted = Accepted + 1
 
         if Accepted == 1:
-            UPLOAD_FOLDER = 'static/users/'+session['user_id']+'/Images'
+            UPLOAD_FOLDER = 'static/users/' + session['user_id'] + '/Images'
             app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            newuserprofilepic = './users/'+session['user_id']+'/Images/'+filename
+            newuserprofilepic = './users/' + session['user_id'] + '/Images/' + filename
 
             getUserID = session['user_id']
             cur = mysql.connection.cursor()
@@ -365,28 +365,42 @@ def changeprofile():
             UPDATE users
             SET user_pp=%s
             WHERE user_id=%s
-            """,(newuserprofilepic,getUserID))
+            """, (newuserprofilepic, getUserID))
             mysql.connection.commit()
 
             cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
             cur.execute("SELECT * FROM users WHERE user_id=%s", [session['user_id']])
             dataFethcher = cur.fetchone()
 
-
             session.pop('userdefpic', None)
             session['userdefpic'] = dataFethcher['user_pp']
             t.sleep(3)
             msgs = 'Profile Picture updated successfully!'
-            return render_template('UserProfileDataFetcher.html',  usernm=session['usernm'], schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'], userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'], userschoolid=session['schoolid'], usercourse=session['course'], userbday=session['userbday'], userem=session['userem'], msgs=msgs)
+            return render_template('UserProfileDataFetcher.html', usernm=session['usernm'],
+                                   schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'],
+                                   userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'],
+                                   userschoolid=session['schoolid'], usercourse=session['course'],
+                                   userbday=session['userbday'], userem=session['userem'], msgs=msgs)
 
         else:
             t.sleep(3)
             msgf = 'File type not Supported!'
-            return render_template('UserProfileDataFetcher.html',  usernm=session['usernm'], schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'], userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'], userschoolid=session['schoolid'], usercourse=session['course'], userbday=session['userbday'], userem=session['userem'], msgf=msgf)
-        
+            return render_template('UserProfileDataFetcher.html', usernm=session['usernm'],
+                                   schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'],
+                                   userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'],
+                                   userschoolid=session['schoolid'], usercourse=session['course'],
+                                   userbday=session['userbday'], userem=session['userem'], msgf=msgf)
 
 
-
+@app.route("/search", methods=['GET', 'POST'])
+def search():
+    # if request.method == "POST":
+    # getsearch = request.form['searcher']
+    return render_template('searchPage.html', usernm=session['usernm'],
+                           schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'],
+                           userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'],
+                           userschoolid=session['schoolid'], usercourse=session['course'],
+                           userbday=session['bday'], userem=session['userem'])
 
 
 if __name__ == "__main__":

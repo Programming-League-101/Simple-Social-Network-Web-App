@@ -1,5 +1,15 @@
-{% extends "user_dashboard.html" %}
-{% block body %}
+<!Doctype HTML>
+	<html lang=en>
+		<head>
+			<title>Information Management System</title>
+            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='./css/searchPage.css') }}">
+			<link rel="shortcut icon" href="{{url_for('static', filename='./images/favicon/favicon.png') }}" type="image/x-icon">
+			<meta charset="UTF-8">
+		</head>
+		<body>
+            {% block body %} {% endblock %}
+		</body>
+	</html>
 			<div id="nav" >
                 <div id="dropdown">
 				    <div draggable='false' ondragstart="return false;" id="user-profile-space">
@@ -29,10 +39,13 @@
                         <div id="preventLogoutdrag"></div>
                     </a>
                 </div>
-
-
 				<div id="pageLogo" >
 					<img draggable='false' ondragstart="return false;" src="{{ url_for('static', filename='./images/logo.png') }}" alt="St.Peter's College Logo" id="spclogo">
 				</div>
 			</div>
-{% endblock %}
+        <div id="searchresultdivider">
+            <div class="searchresult">
+                <a href="#"  class="searchresult">TEST NAME</a>
+            </div>
+
+        </div>
