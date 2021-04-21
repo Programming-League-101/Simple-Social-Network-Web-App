@@ -269,10 +269,9 @@ body {
 }
 
 
-.searchresult {
+.searchresultblock {
   	position: relative;
 	display: block;
-    color: white;
     background-color: #555969;
     border: none;
     height: 100px;
@@ -280,18 +279,32 @@ body {
     border-radius: 15px;
     cursor: pointer;
     outline: none;
+    font-weight: 600;
+	top: 20px;
+	padding-top: 40px;
+	margin: auto auto 20px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.3);
+    transition: background-color 200ms ease-in;
+    user-select: none;
+}
+
+.searchresult {
+  	position: relative;
+	display: block;
+    color: white;
+    border: none;
+    height: 100px;
+    width: 550px;
+    cursor: pointer;
+    outline: none;
     text-decoration: none;
+	top: -40px;
     font-family: 'TitilliumWeb-Bold', sans-serif;
     font-weight: 600;
     white-space: nowrap;
     font-size: 20px;
-	top: 20px;
-	padding-top: 50px;
-	margin: auto auto 20px;
+	padding-top: 35px;
 	text-align: center;
     text-shadow: 0 0 10px #212020;
-    box-shadow: 0 0 30px rgba(0,0,0,0.3);
-    transition: background-color 200ms ease-in;
     user-select: none;
-
 }

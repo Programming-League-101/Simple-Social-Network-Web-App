@@ -222,6 +222,35 @@ body {
 		border-radius: 7px;
 }
 
+
+.searchbar {
+	border: 1px solid #505259;
+	position: absolute;
+	font-size: 18px;
+	color: white;
+	background-color: #18191c;
+	text-indent: 15px;
+	border-radius: 7px;
+	height: 50px;
+	width: 350px;
+	outline: none;
+	font-family: inherit;
+	font-weight: 600;
+	display: flex;
+	transition: border 300ms ease-in;
+}
+
+.searchbar:hover{
+	border: 1px solid #5c5e66;
+	border-radius: 7px;
+}
+
+
+.searchbar:focus {
+		border: 1px solid #f2f2f2;
+		border-radius: 7px;
+}
+
 #searcher {
 	width: 600px;
 	left: 600px;
@@ -230,7 +259,6 @@ body {
 
 #searcher::placeholder {
 	color: #4f5057;
-	opacity: 1;
 }
 
 #searcher:hover::placeholder {
