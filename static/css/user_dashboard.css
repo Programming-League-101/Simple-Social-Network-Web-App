@@ -268,3 +268,15 @@ body {
 #searcher:focus::placeholder {
 	color: #81828a;
 }
+
+#msgf{
+	position: absolute;
+	color: #fa4444;
+	font-size: 20px;
+    font-weight: lighter;
+	text-align: center;
+    left: 780px;
+    white-space: nowrap;
+	top: -75px;
+    z-index: 2000;
+}

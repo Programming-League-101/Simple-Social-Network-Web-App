@@ -394,13 +394,14 @@ def changeprofile():
 
 @app.route("/search", methods=['GET', 'POST'])
 def search():
-    # if request.method == "POST":
-    # getsearch = request.form['searcher']
-    return render_template('searchPage.html', usernm=session['usernm'],
-                           schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'],
-                           userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'],
-                           userschoolid=session['schoolid'], usercourse=session['course'],
-                           userbday=session['bday'], userem=session['userem'])
+    if request.method == "POST":
+        getsearch = request.form['searcher']
+        strgetsearch = str(getsearch)
+        return render_template('searchPage.html', usernm=session['usernm'],
+                                   schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'],
+                                   userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'],
+                                   userschoolid=session['schoolid'], usercourse=session['course'],
+                                   userbday=session['bday'], userem=session['userem'], test = strgetsearch)
 
 
 if __name__ == "__main__":

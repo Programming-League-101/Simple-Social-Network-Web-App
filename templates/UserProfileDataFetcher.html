@@ -39,7 +39,7 @@
                 </div>
                <div id="userprofilename2">
                     <form action="{{ url_for('changeprofile') }}" method="POST" enctype="multipart/form-data">
-                        <input type="file" id="newuserdp" name="newuserdp" onchange="this.form.submit()" hidden/>
+                        <input type="file" accept="image/*" id="newuserdp" name="newuserdp" onchange="this.form.submit()" hidden/>
                         <label id="changedpbtn" for="newuserdp">CHANGE PROFILE</label>
                     </form>
                 </div>
