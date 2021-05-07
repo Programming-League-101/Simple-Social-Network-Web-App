@@ -32,6 +32,15 @@
 				<div id="pageLogo" >
 					<img draggable='false' ondragstart="return false;" src="{{ url_for('static', filename='./images/logo.png') }}" alt="St.Peter's College Logo" id="spclogo">
 				</div>
+                <div id="searchErrorDiv">
+                    <h3 id="SearchError">{{ error }}</h3>
+                </div>
+                <script type="text/javascript">
+                    function msghider() {
+                        document.getElementById("SearchError").style.visibility="hidden";
+                    }
+                    setTimeout("msghider()", 3000);
+                </script>
 			</div>
     <h3 id="msgf">{{ msgf }}</h3>
 {% endblock %}

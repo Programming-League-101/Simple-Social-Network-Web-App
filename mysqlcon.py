@@ -193,7 +193,7 @@ def fetcher():
             return render_template('fetchreg.html', msgs=msgs)
 
 
-@app.route('/EditProfile', methods=['GET', 'POST'])
+@app.route('/profile/edit', methods=['GET', 'POST'])
 def editprofile():
     getUserID = session['user_id']
     getID = session['id']
@@ -255,6 +255,11 @@ def editprofile():
             SET fullname=%s
             WHERE user_id=%s
             """, (usernm, getUserID))
+            cur.execute("""
+            UPDATE usersdictionary
+            SET userfn=%s
+            WHERE id=%s
+            """, (usernm, getID))
             mysql.connection.commit()
 
         if userstatus != " ":
@@ -412,17 +417,23 @@ def changeprofile():
                                    userbday=session['userbday'], userem=session['userem'], msgf=msgf)
 
 
-@app.route("/search", methods=['GET', 'POST'])
+@app.route("/", methods=['GET', 'POST'])
 def search():
 
     filtered = []
     userDict = []
-    searchstr = []
     count = 0
     if request.method == "POST":
         getsearch = request.form['searcher']
 
-        #filtered.append("Edward")
+        if not getsearch:
+            Error = "Search input must not be empty"
+            return render_template('userDashpage.html', usernm=session['usernm'],
+                               schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'],
+                               userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'],
+                               userschoolid=session['schoolid'], usercourse=session['course'],
+                               userbday=session['bday'], userem=session['userem'],
+                               error=Error)  # unfiltered[0]['userfn']
 
         cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cur.execute("SELECT * FROM usersdictionary")
@@ -453,40 +464,6 @@ def search():
                                    userschoolid=session['schoolid'], usercourse=session['course'],
                                    userbday=session['bday'], userem=session['userem'],
                                    datas=filtered, returnsearch=getsearch)  # unfiltered[0]['userfn']
-         #   test = "YES"
-        #else:
-         #   test = "NO"
-        # if len(dataFetcher) == 0:
-        # datas = "404"
-
-        #  return render_template('searchPage.html', usernm=session['usernm'],
-        #                schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'],
-        #               userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'],
-        #              userschoolid=session['schoolid'], usercourse=session['course'],
-        #             userbday=session['bday'], userem=session['userem'],
-        #            datas=datas, returnsearch=getsearch)  # unfiltered[0]['userfn']
-        # else:
-        # return render_template('searchPage.html', usernm=session['usernm'],
-        #                       schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'],
-        #                      userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'],
-        #                     userschoolid=session['schoolid'], usercourse=session['course'],
-        #                  userbday=session['bday'], userem=session['userem'],
-        #                 datas=dataFetcher)  # unfiltered[0]['userfn']
-
-
-        # getuserfn = str(unfiltered[0])
-        # if getuserfn.find(getsearch) != -1:
-        # datanew = "YES!!"
-        # else:
-        #  datanew = "NO"
-        # if getuserfn.find(getsearch) != -1:
-        #    data = "YES!!!"
-        # else:
-        #   data = "NO!!!"
-
-        # count = count + 1
-
-        # strgetsearch = str(dataFethcher[0])
 
 
 if __name__ == "__main__":
