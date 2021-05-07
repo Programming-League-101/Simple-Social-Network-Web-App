@@ -30,7 +30,7 @@
                 <form  action="{{ url_for('search') }}" method="POST" >
                     <div id="searcherdiv">
                         <!--suppress HtmlFormInputWithoutLabel -->
-                        <input class="searchbar" value=" " id="searcher" name="searcher" placeholder="Search..." autocomplete="off" type="text"/>
+                        <input class="searchbar" value="{{ returnsearch }}" id="searcher" name="searcher" placeholder="Search..." autocomplete="off" type="text"/>
                     </div>
                 </form>
                 <div id="logoutLogo">
@@ -44,49 +44,20 @@
 				</div>
 			</div>
         <div id="searchresultdivider">
-            <a href="#" class="searchresultblock" draggable='false' ondragstart="return false;">
-                <img src="{{ url_for('static',filename=userdefpic) }}" alt="{{ userProfilepic }}" class="profileViewResult">
-                <h3 class="statusViewResult" >Student</h3>
-                <h3 class="searchuserresult">{{ test }}</h3>
-            </a>
-            <a href="#" class="searchresultblock" draggable='false' ondragstart="return false;">
-                <img src="{{ url_for('static',filename=userdefpic) }}" alt="{{ userProfilepic }}" class="profileViewResult">
-                <h3 class="statusViewResult" >Student</h3>
-                <h3 class="searchuserresult">{{ test }}</h3>
-            </a>
-            <a href="#" class="searchresultblock" draggable='false' ondragstart="return false;">
-                <img src="{{ url_for('static',filename=userdefpic) }}" alt="{{ userProfilepic }}" class="profileViewResult">
-                <h3 class="statusViewResult" >Student</h3>
-                <h3 class="searchuserresult">{{ test }}</h3>
-            </a>
-            <a href="#" class="searchresultblock" draggable='false' ondragstart="return false;">
-                <img src="{{ url_for('static',filename=userdefpic) }}" alt="{{ userProfilepic }}" class="profileViewResult">
-                <h3 class="statusViewResult" >Student</h3>
-                <h3 class="searchuserresult">{{ test }}</h3>
-            </a>
-            <a href="#" class="searchresultblock" draggable='false' ondragstart="return false;">
-                <img src="{{ url_for('static',filename=userdefpic) }}" alt="{{ userProfilepic }}" class="profileViewResult">
-                <h3 class="statusViewResult" >Student</h3>
-                <h3 class="searchuserresult">{{ test }}</h3>
-            </a>
-            <a href="#" class="searchresultblock" draggable='false' ondragstart="return false;">
-                <img src="{{ url_for('static',filename=userdefpic) }}" alt="{{ userProfilepic }}" class="profileViewResult">
-                <h3 class="statusViewResult" >Student</h3>
-                <h3 class="searchuserresult">{{ test }}</h3>
-            </a>
-            <a href="#" class="searchresultblock" draggable='false' ondragstart="return false;">
-                <img src="{{ url_for('static',filename=userdefpic) }}" alt="{{ userProfilepic }}" class="profileViewResult">
-                <h3 class="statusViewResult" >Student</h3>
-                <h3 class="searchuserresult">{{ test }}</h3>
-            </a>
-            <a href="#" class="searchresultblock" draggable='false' ondragstart="return false;">
-                <img src="{{ url_for('static',filename=userdefpic) }}" alt="{{ userProfilepic }}" class="profileViewResult">
-                <h3 class="statusViewResult" >Student</h3>
-                <h3 class="searchuserresult">{{ test }}</h3>
-            </a>
-            <a href="#" class="searchresultblock" draggable='false' ondragstart="return false;">
-                <img src="{{ url_for('static',filename=userdefpic) }}" alt="{{ userProfilepic }}" class="profileViewResult">
-                <h3 class="statusViewResult" >Student</h3>
-                <h3 class="searchuserresult">{{ test }}</h3>
-            </a>
+
+            {% if  getreturn  == True %}
+                <a class="searchresultblock" draggable='false' ondragstart="return false;">
+                    <h3 class="emptyresult">" {{ returnsearch }} " Not Found</h3>
+                </a>
+
+            {% else %}
+                {% for x in datas %}
+                    <a href="#" class="searchresultblock" draggable='false' ondragstart="return false;">
+                        <img src="{{ url_for('static',filename=x['userpp']) }}" alt="{{ x['userfn'] }}" class="profileViewResult">
+                        <h3 class="statusViewResult" >{{ x['schoolpos'] }}</h3>
+                        <h3 class="searchuserresult">{{ x['userfn'] }}</h3>
+                    </a>
+                {% endfor %}
+            {% endif %}
         </div>
+    

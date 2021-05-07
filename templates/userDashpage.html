@@ -20,7 +20,7 @@
                 <form  action="{{ url_for('search') }}" method="POST" >
                     <div id="searcherdiv">
                         <!--suppress HtmlFormInputWithoutLabel -->
-                        <input class="searchbar" value=" " id="searcher" name="searcher" placeholder="Search..." autocomplete="off" type="text"/>
+                        <input class="searchbar" id="searcher" name="searcher" placeholder="Search..." autocomplete="off" type="text"/>
                     </div>
                 </form>
                 <div id="logoutLogo">
@@ -29,8 +29,6 @@
                         <div id="preventLogoutdrag"></div>
                     </a>
                 </div>
-
-
 				<div id="pageLogo" >
 					<img draggable='false' ondragstart="return false;" src="{{ url_for('static', filename='./images/logo.png') }}" alt="St.Peter's College Logo" id="spclogo">
 				</div>

@@ -257,18 +257,6 @@ body {
 	top: 13px;
 }
 
-#searcher::placeholder {
-	color: #4f5057;
-}
-
-#searcher:hover::placeholder {
-	color: #81828a;
-}
-
-#searcher:focus::placeholder {
-	color: #81828a;
-}
-
 #msgf{
 	position: absolute;
 	color: #fa4444;

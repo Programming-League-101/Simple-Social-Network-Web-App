@@ -184,6 +184,9 @@ def fetcher():
             cur.execute(
                 "INSERT INTO `users` (`user_id`,`user_pp`,`fullname`, `email`, `pass`, `repass`) VALUES (%s, %s, %s, %s, %s, %s)",
                 [generateUUID, def_pic, name, emailreg, str(p1.hexdigest()), str(p2.hexdigest())])
+            cur.execute(
+                "INSERT INTO `usersdictionary` (`userfn`,`userpp`) VALUES (%s, %s)",
+                [name, def_pic])
             mysql.connection.commit()
 
             msgs = "Registered Successfully!"
@@ -193,6 +196,7 @@ def fetcher():
 @app.route('/EditProfile', methods=['GET', 'POST'])
 def editprofile():
     getUserID = session['user_id']
+    getID = session['id']
     if request.method == "POST":
         userstatus = request.form.get('userstatusedit')
         usernm = request.form.get('usernmeditor')
@@ -255,12 +259,19 @@ def editprofile():
 
         if userstatus != " ":
             session.pop('schoolpos', None)
+
             cur = mysql.connection.cursor()
             cur.execute("""
             UPDATE users
             SET schoolpos=%s
             WHERE user_id=%s
             """, (userstatus, getUserID))
+
+            cur.execute("""
+            UPDATE usersdictionary
+            SET schoolpos=%s
+            WHERE id=%s
+            """, (userstatus, getID))
             mysql.connection.commit()
 
         if userschoolyr != " ":
@@ -359,6 +370,7 @@ def changeprofile():
             newuserprofilepic = './users/' + session['user_id'] + '/Images/' + filename
 
             getUserID = session['user_id']
+            getID = session['id']
             cur = mysql.connection.cursor()
             cur.execute("""
         
@@ -366,6 +378,14 @@ def changeprofile():
             SET user_pp=%s
             WHERE user_id=%s
             """, (newuserprofilepic, getUserID))
+
+            cur.execute("""
+
+            UPDATE usersdictionary
+            SET userpp=%s
+            WHERE id=%s
+            """, (newuserprofilepic, getID))
+
             mysql.connection.commit()
 
             cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -380,7 +400,7 @@ def changeprofile():
                                    schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'],
                                    userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'],
                                    userschoolid=session['schoolid'], usercourse=session['course'],
-                                   userbday=session['userbday'], userem=session['userem'], msgs=msgs)
+                                   userbday=session['bday'], userem=session['userem'], msgs=msgs)
 
         else:
             t.sleep(3)
@@ -394,14 +414,79 @@ def changeprofile():
 
 @app.route("/search", methods=['GET', 'POST'])
 def search():
+
+    filtered = []
+    userDict = []
+    searchstr = []
+    count = 0
     if request.method == "POST":
         getsearch = request.form['searcher']
-        strgetsearch = str(getsearch)
-        return render_template('searchPage.html', usernm=session['usernm'],
+
+        #filtered.append("Edward")
+
+        cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cur.execute("SELECT * FROM usersdictionary")
+        dataFetcher = cur.fetchall()
+
+        for x in dataFetcher:
+            userDict.append(x)
+
+        for i in userDict:
+            search = userDict[count]['userfn'].lower().find(getsearch.lower())
+            if search != -1:
+                filtered.append(userDict[count])
+            count += 1
+
+        if len(filtered) == 0:
+            returnerror = True
+            return render_template('searchPage.html', usernm=session['usernm'],
+                     schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'],
+                     userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'],
+                     userschoolid=session['schoolid'], usercourse=session['course'],
+                     userbday=session['bday'], userem=session['userem'],
+                     getreturn=returnerror, returnsearch=getsearch)  # unfiltered[0]['userfn']
+
+        else:
+            return render_template('searchPage.html', usernm=session['usernm'],
                                    schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'],
                                    userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'],
                                    userschoolid=session['schoolid'], usercourse=session['course'],
-                                   userbday=session['bday'], userem=session['userem'], test = strgetsearch)
+                                   userbday=session['bday'], userem=session['userem'],
+                                   datas=filtered, returnsearch=getsearch)  # unfiltered[0]['userfn']
+         #   test = "YES"
+        #else:
+         #   test = "NO"
+        # if len(dataFetcher) == 0:
+        # datas = "404"
+
+        #  return render_template('searchPage.html', usernm=session['usernm'],
+        #                schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'],
+        #               userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'],
+        #              userschoolid=session['schoolid'], usercourse=session['course'],
+        #             userbday=session['bday'], userem=session['userem'],
+        #            datas=datas, returnsearch=getsearch)  # unfiltered[0]['userfn']
+        # else:
+        # return render_template('searchPage.html', usernm=session['usernm'],
+        #                       schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'],
+        #                      userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'],
+        #                     userschoolid=session['schoolid'], usercourse=session['course'],
+        #                  userbday=session['bday'], userem=session['userem'],
+        #                 datas=dataFetcher)  # unfiltered[0]['userfn']
+
+
+        # getuserfn = str(unfiltered[0])
+        # if getuserfn.find(getsearch) != -1:
+        # datanew = "YES!!"
+        # else:
+        #  datanew = "NO"
+        # if getuserfn.find(getsearch) != -1:
+        #    data = "YES!!!"
+        # else:
+        #   data = "NO!!!"
+
+        # count = count + 1
+
+        # strgetsearch = str(dataFethcher[0])
 
 
 if __name__ == "__main__":
