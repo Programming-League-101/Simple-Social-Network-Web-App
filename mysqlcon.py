@@ -5,6 +5,7 @@ import shutil
 
 import time as t
 import MySQLdb.cursors
+import shortuuid
 from flask import Flask, render_template, url_for, request, redirect, session, flash
 from flask_mysqldb import MySQL
 from werkzeug.utils import secure_filename
@@ -21,7 +22,8 @@ app.config['MYSQL_DB'] = 'informationmanagement'
 
 mysql = MySQL(app)
 
-
+linkList = ["login", "register", "profile", "profile/edit"]
+logout = "false"
 @app.route('/login', methods=['GET', 'POST'])
 def base():
     if 'loggedin' in session:
@@ -99,21 +101,32 @@ def profileEditor():
         return redirect(url_for('base'))
 
 
-@app.route('/logout')
+
+
+@app.route('/logout', methods=['POST'])
 def logout():
-    session.pop('loggedin', None)
-    session.pop('id', None)
-    session.pop('schoolpos', None)
-    session.pop('user_id', None)
-    session.pop('usernm', None)
-    session.pop('userdefpic', None)
-    session.pop('userpicalt', None)
-    session.pop('schoolyr', None)
-    session.pop('schoolid', None)
-    session.pop('course', None)
-    session.pop('userbday', None)
-    session.pop('userem', None)
-    return redirect(url_for('base'))
+     if 'loggedin' in session:
+           if request.method == "POST":
+                logout = request.form['logoutin']
+
+           if str(logout) == "True":
+               session.pop('loggedin', None)
+               session.pop('id', None)
+               session.pop('schoolpos', None)
+               session.pop('user_id', None)
+               session.pop('usernm', None)
+               session.pop('userdefpic', None)
+               session.pop('userpicalt', None)
+               session.pop('schoolyr', None)
+               session.pop('schoolid', None)
+               session.pop('course', None)
+               session.pop('userbday', None)
+               session.pop('userem', None)
+               return redirect(url_for('base'))
+           else:
+               return redirect(url_for('homepage'))
+     else:
+           return redirect(url_for('base'))
 
 
 @app.route('/register')
@@ -179,14 +192,16 @@ def fetcher():
             userlocalstorage = "Images"
             userlocalstorage_dir = "./static/users/" + userdirectory + "/"
             userlocalstoragepath = os.path.join(userlocalstorage_dir, userlocalstorage)
+            generateVisitorAccessID = shortuuid.ShortUUID().random(length=22)
+
             os.mkdir(userlocalstoragepath)
             def_pic = './images/default_profile_picture.png'
             cur.execute(
                 "INSERT INTO `users` (`user_id`,`user_pp`,`fullname`, `email`, `pass`, `repass`) VALUES (%s, %s, %s, %s, %s, %s)",
                 [generateUUID, def_pic, name, emailreg, str(p1.hexdigest()), str(p2.hexdigest())])
             cur.execute(
-                "INSERT INTO `usersdictionary` (`userfn`,`userpp`) VALUES (%s, %s)",
-                [name, def_pic])
+                "INSERT INTO `usersdictionary` (`userfn`,`userpp`,`visitorAccessID`) VALUES (%s, %s, %s)",
+                [name, def_pic, generateVisitorAccessID])
             mysql.connection.commit()
 
             msgs = "Registered Successfully!"
@@ -255,6 +270,7 @@ def editprofile():
             SET fullname=%s
             WHERE user_id=%s
             """, (usernm, getUserID))
+
             cur.execute("""
             UPDATE usersdictionary
             SET userfn=%s
@@ -419,7 +435,6 @@ def changeprofile():
 
 @app.route("/", methods=['GET', 'POST'])
 def search():
-
     filtered = []
     userDict = []
     count = 0
@@ -429,11 +444,11 @@ def search():
         if not getsearch:
             Error = "Search input must not be empty"
             return render_template('userDashpage.html', usernm=session['usernm'],
-                               schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'],
-                               userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'],
-                               userschoolid=session['schoolid'], usercourse=session['course'],
-                               userbday=session['bday'], userem=session['userem'],
-                               error=Error)  # unfiltered[0]['userfn']
+                                   schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'],
+                                   userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'],
+                                   userschoolid=session['schoolid'], usercourse=session['course'],
+                                   userbday=session['bday'], userem=session['userem'],
+                                   error=Error)  # unfiltered[0]['userfn']
 
         cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cur.execute("SELECT * FROM usersdictionary")
@@ -451,11 +466,11 @@ def search():
         if len(filtered) == 0:
             returnerror = True
             return render_template('searchPage.html', usernm=session['usernm'],
-                     schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'],
-                     userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'],
-                     userschoolid=session['schoolid'], usercourse=session['course'],
-                     userbday=session['bday'], userem=session['userem'],
-                     getreturn=returnerror, returnsearch=getsearch)  # unfiltered[0]['userfn']
+                                   schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'],
+                                   userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'],
+                                   userschoolid=session['schoolid'], usercourse=session['course'],
+                                   userbday=session['bday'], userem=session['userem'],
+                                   getreturn=returnerror, returnsearch=getsearch)  # unfiltered[0]['userfn']
 
         else:
             return render_template('searchPage.html', usernm=session['usernm'],
@@ -465,6 +480,92 @@ def search():
                                    userbday=session['bday'], userem=session['userem'],
                                    datas=filtered, returnsearch=getsearch)  # unfiltered[0]['userfn']
 
+
+
+@app.route("/profile/<user>", methods=['GET', 'POST'])
+def visitLinker(user):
+
+    cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cur.execute("SELECT * FROM usersdictionary WHERE visitorAccessID=%s", [user])
+    visitorAccessIDFetch = cur.fetchone()
+
+    getuserID = visitorAccessIDFetch['id']
+    getVisitorID = visitorAccessIDFetch['visitorAccessID']
+
+
+    if session['id'] == getuserID:
+        return redirect(url_for('profile'))
+
+    else:
+        cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cur.execute("SELECT * FROM users WHERE id=%s", [getuserID])
+        visitordataFetch = cur.fetchone()
+
+
+
+        return render_template('profileVisitor.html', usernm=session['usernm'],
+                           schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'],
+                           userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'],
+                           userschoolid=session['schoolid'], usercourse=session['course'],
+                           userbday=session['bday'], userem=session['userem'],
+                           visitordefpic=visitordataFetch['user_pp'], visitorusernm=visitordataFetch['fullname'],
+                           visitorschoolposition=visitordataFetch['schoolpos'],
+                           visitorusernm2=visitordataFetch['fullname'],
+                           visitorschoolposition2=visitordataFetch['schoolpos'],
+                           visitoruserschoolyr=visitordataFetch['schoolyr'],
+                           visitoruserschoolid=visitordataFetch['schoolid'],
+                           visitoruserbday=visitordataFetch['bday'], visitorusercourse=visitordataFetch['course'],
+                           user=visitorAccessIDFetch['visitorAccessID'])
+
+@app.route("/profile/<user>", methods=['GET', 'POST'])
+def visit(user):
+
+    if 'loggedin' in session:
+        cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cur.execute("SELECT * FROM usersdictionary WHERE visitorAccessID=%s", [user])
+        visitorAccessIDFetch = cur.fetchone()
+
+        getuserID = visitorAccessIDFetch['id']
+
+        if session['id'] == getuserID:
+            return redirect(url_for('profile'))
+
+        else:
+            if request.method == "POST":
+                visitor = request.form['visituserprofile']
+
+                cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                cur.execute("SELECT * FROM users WHERE id=%s", [str(visitor)])
+                visitordataFetch = cur.fetchone()
+
+                cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                cur.execute("SELECT * FROM usersdictionary WHERE id=%s", [str(visitor)])
+                visitorAccessIDFetch = cur.fetchone()
+
+                return render_template('profileVisitor.html', usernm=session['usernm'],
+                                   schoolposition=session['schoolpos'], userProfilepic=session['userpicalt'],
+                                   userdefpic=session['userdefpic'], userschoolyr=session['schoolyr'],
+                                   userschoolid=session['schoolid'], usercourse=session['course'],
+                                   userbday=session['bday'], userem=session['userem'],
+                                   visitordefpic=visitordataFetch['user_pp'], visitorusernm=visitordataFetch['fullname'], visitorschoolposition=visitordataFetch['schoolpos'], visitorusernm2=visitordataFetch['fullname'],
+                                   visitorschoolposition2=visitordataFetch['schoolpos'], visitoruserschoolyr=visitordataFetch['schoolyr'], visitoruserschoolid=visitordataFetch['schoolid'],
+                                   visitoruserbday=visitordataFetch['bday'], visitorusercourse=visitordataFetch['course'], user=visitorAccessIDFetch['visitorAccessID'])
+
+    else:
+        return redirect(url_for('homepage'))
+
+@app.route("/<link>")
+def goto(link):
+    if 'loggedin' in session:
+        if link in linkList:
+            return redirect(url_for(link))
+        else:
+            return redirect(url_for('homepage'))
+    else:
+        if link in linkList:
+            return redirect(url_for('base'))
+        else:
+            return redirect(url_for('base'))
 
 if __name__ == "__main__":
     app.run(debug=True)

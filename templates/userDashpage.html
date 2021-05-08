@@ -24,10 +24,11 @@
                     </div>
                 </form>
                 <div id="logoutLogo">
-                    <a id="logoutfocus" draggable='false' ondragstart="return false;" href="{{ url_for('logout') }}">
-                        <img draggable='false' ondragstart="return false;" src="{{ url_for('static', filename='./images/logout.png') }}" alt="Logout" id="logout">
-                        <div id="preventLogoutdrag"></div>
-                    </a>
+                    <form  action="{{ url_for('logout') }}" method="POST" >
+                         <button id="logoutfocus" draggable='false' ondragstart="return false;" ></button>
+                         <img draggable='false' ondragstart="return false;" src="{{ url_for('static', filename='./images/logout.png') }}" alt="Logout" id="logout">
+                         <input type="hidden" id="logoutin" name="logoutin" value="True"/>
+                     </form>
                 </div>
 				<div id="pageLogo" >
 					<img draggable='false' ondragstart="return false;" src="{{ url_for('static', filename='./images/logo.png') }}" alt="St.Peter's College Logo" id="spclogo">

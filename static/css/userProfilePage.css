@@ -162,13 +162,24 @@ body {
 	left: 1823px;
 	transition: background-color 200ms ease-in;
 }
-
 #logoutfocus {
 	position: absolute;
 	width: 80px;
 	height: 100%;
-
+	background-color: #18191c;
+	border: none;
+	border-top-left-radius: 20px;
+	border-bottom-left-radius: 20px;
+	transition: background-color 200ms ease-in;
+	cursor: pointer;
 }
+
+
+#logoutfocus:hover {
+	background-color: #515357;
+}
+
+
 #logoutLogo:hover {
 	background-color: #515357;
 }

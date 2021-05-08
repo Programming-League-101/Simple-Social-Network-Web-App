@@ -1,7 +1,13 @@
-{% extends 'userProfilePage.html' %}
-
-{% block body %}
-			<div id="nav" >
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ visitorusernm }} • Information Management System</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='./css/profileVisitor.css') }}">
+    <link rel="shortcut icon" href="{{url_for('static', filename='./images/favicon/favicon.png') }}" type="image/x-icon">
+</head>
+<body>
+<div id="nav" >
                 <div id="dropdown">
 				    <div draggable='false' ondragstart="return false;" id="user-profile-space">
 					    <div id="user-profile-pic" class="misc">
@@ -30,58 +36,40 @@
 				</div>
 			</div>
             <div id="userinfobg"></div>
-            <div id="userinfobg2"></div>
             <div id="userprofilepage">
-                <h3 id="msgs">{{ msgs }}</h3>
-                <h3 id="msgf">{{ msgf }}</h3>
-                <a id="profileSettings" href="{{ url_for('profileEditor') }}">EDIT PROFILE</a>
                 <div id="userprofilepicture">
-                    <img src="{{ url_for('static',filename=userdefpic) }}" alt="{{ userProfilepic }}" id="user-pp-view">
-                </div>
-               <div id="userprofilename2">
-                    <form action="{{ url_for('changeprofile') }}" method="POST" enctype="multipart/form-data">
-                        <input type="file" accept="image/*" id="newuserdp" name="newuserdp" onchange="this.form.submit()" hidden/>
-                        <label id="changedpbtn" for="newuserdp">CHANGE PROFILE</label>
-                    </form>
+                    <img src="{{ url_for('static',filename=visitordefpic) }}" alt="{{ userProfilepic }}" id="user-pp-view">
                 </div>
                 <div id="userprofilename1">
-                    <h3 id="getusernm">{{ usernm }}</h3>
+                    <h3 id="getusernm">{{ visitorusernm }}</h3>
                 </div>
                 <div id="userprofileschoolpos1">
-                    <h3>{{ schoolposition }}</h3>
+                    <h3>{{ visitorschoolposition }}</h3>
                 </div>
                  <div id="userprofilename2">
                     <label id="userprofilenamelabel" >NAME:</label>
-                    <h3>{{ usernm }}</h3>
+                    <h3>{{ visitorusernm2 }}</h3>
                 </div>
                 <div id="userprofileschoolpos2">
                     <label id="userprofilsylabel" >STATUS:</label>
-                    <h3>{{ schoolposition }}</h3>
-                </div>
-                <div id="userprofileemail">
-                    <label id="userprofileemaillabel" >EMAIL:</label>
-                    <h3>{{ userem }}</h3>
+                    <h3>{{ visitorschoolposition2 }}</h3>
                 </div>
                 <div id="userprofileschoolyr">
                     <label>SCHOOL YEAR:</label>
-                    <h3>{{ userschoolyr }}</h3>
+                    <h3>{{ visitoruserschoolyr }}</h3>
                 </div>
                 <div id="userprofileschoolid">
                     <label>SCHOOL I.D:</label>
-                    <h3>{{ userschoolid }}</h3>
+                    <h3>{{ visitoruserschoolid }}</h3>
                 </div>
                 <div id="userprofilebday">
                      <label>DATE OF BIRTH:</label>
-                    <h3>{{ userbday }}</h3>
+                    <h3>{{ visitoruserbday }}</h3>
                 </div>
                 <div id="userprofilecourse">
                     <label>COURSE:</label>
-                    <h3>{{ usercourse }}</h3>
-                </div>
-                <div id="userprofilepass">
-                    <label>PASSWORD (ENCRYPTED):</label>
-                    <h3 id="dummypass">••••••••</h3>
+                    <h3>{{ visitorusercourse }}</h3>
                 </div>
             </div>
-            <span id="span"></span>
-{% endblock %}
+</body>
+</html>

@@ -1,16 +1,14 @@
 <!Doctype HTML>
 	<html lang=en>
 		<head>
-			<title>Information Management System</title>
+			<title>Search • Information Management System</title>
             <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='./css/searchPage.css') }}">
 			<link rel="shortcut icon" href="{{url_for('static', filename='./images/favicon/favicon.png') }}" type="image/x-icon">
 			<meta charset="UTF-8">
 		</head>
 		<body>
-            {% block body %} {% endblock %}
-		</body>
-	</html>
-			<div id="nav" >
+
+        	<div id="nav" >
                 <div id="dropdown">
 				    <div draggable='false' ondragstart="return false;" id="user-profile-space">
 					    <div id="user-profile-pic" class="misc">
@@ -35,10 +33,11 @@
                     </div>
                 </form>
                 <div id="logoutLogo">
-                    <a id="logoutfocus" draggable='false' ondragstart="return false;" href="{{ url_for('logout') }}">
-                        <img draggable='false' ondragstart="return false;" src="{{ url_for('static', filename='./images/logout.png') }}" alt="Logout" id="logout">
-                        <div id="preventLogoutdrag"></div>
-                    </a>
+                     <form  action="{{ url_for('logout') }}" method="POST" >
+                         <button id="logoutfocus" draggable='false' ondragstart="return false;" ></button>
+                         <img draggable='false' ondragstart="return false;" src="{{ url_for('static', filename='./images/logout.png') }}" alt="Logout" id="logout">
+                         <input type="hidden" id="logoutin" name="logoutin" value="True"/>
+                     </form>
                 </div>
 				<div id="pageLogo" >
 					<img draggable='false' ondragstart="return false;" src="{{ url_for('static', filename='./images/logo.png') }}" alt="St.Peter's College Logo" id="spclogo">
@@ -47,18 +46,23 @@
         <div id="searchresultdivider">
 
             {% if  getreturn  == True %}
-                <a class="searchresultblock" draggable='false' ondragstart="return false;">
+                <a class="searchresultblock" draggable='false'   ondragstart="return false;">
                     <h3 class="emptyresult">" {{ returnsearch }} " Not Found</h3>
                 </a>
 
             {% else %}
                 {% for x in datas %}
-                    <a href="#" class="searchresultblock" draggable='false' ondragstart="return false;">
-                        <img src="{{ url_for('static',filename=x['userpp']) }}" alt="{{ x['userfn'] }}" class="profileViewResult">
-                        <h3 class="statusViewResult" >{{ x['schoolpos'] }}</h3>
-                        <h3 class="searchuserresult">{{ x['userfn'] }}</h3>
-                    </a>
+                    <form  action="{{ url_for('visit',user=x['visitorAccessID']) }}" method="POST" >
+                        <button class="searchresultblock" draggable='false' ondragstart="return false;">
+                            <img src="{{ url_for('static',filename=x['userpp']) }}" alt="{{ x['userfn'] }}" class="profileViewResult">
+                            <h3 class="statusViewResult" >{{ x['schoolpos'] }}</h3>
+                            <h3 class="searchuserresult">{{ x['userfn'] }}</h3>
+                            <input type="hidden" id="visituserprofile" name="visituserprofile" value="{{ x['id'] }}"/>
+                        </button>
+                    </form>
                 {% endfor %}
             {% endif %}
         </div>
-    
+
+		</body>
+	</html>
